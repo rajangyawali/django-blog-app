@@ -1,0 +1,15 @@
+{% load static %}
+
+<h2>These are today's blogs </h2>
+
+
+{% for post in posts  %}
+
+    <h3>{{post.title}}</h3>
+    <img src="{{ post.image_field.url }}">
+    <p>{{post.description}} </p>
+    <h6>Posted by: {{post.author}} </h6>
+    <h6>Posted on: {{post.posted_on}} </h6>
+    <br><br>
+
+{% endfor %}

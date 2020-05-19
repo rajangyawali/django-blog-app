@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<h2>Please contact me </h2>
+
+{% for author in authors  %}
+Name: {{author.first_name}} {{author.last_name}} <br>
+Email: {{author.email}}<br>
+Phone: {{author.phone}}<br><br>
+{% endfor %}
+
+{% endblock %}
+

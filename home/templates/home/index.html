@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+    <h2>This is my hello from Home App </h2>
+
+<ul>
+    {% for i in numbers %}
+
+    <li> {{i}}</li>
+
+    {% endfor %}
+
+</ul>
+{% endblock %}
