@@ -1,0 +1,106 @@
+{% load static %}
+<!-- row -->
+<div class="row">
+    {% for post, color in hero_posts %}	
+    <!-- post -->
+    <div class="col-md-6">
+        <div class="post post-thumb">
+            <a class="post-img" href="blog-post.html"><img src="{{ post.image.url }}" alt="{{ post.title }}" height="320"></a>
+            <div class="post-body">
+                <div class="post-meta">
+                    <a class="post-category cat-{{color}}" href="category.html">{{ post.category }}</a>
+                    <span class="post-date">{{ post.posted.date }}</span>
+                </div>
+                <h3 class="post-title"><a href="blog-post.html">{{ post.title }}</a></h3>
+            </div>
+        </div>
+    </div>
+    <!-- /post -->
+    {% endfor %}
+</div>
+<!-- /row -->
+
+<!-- row -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="section-title">
+            <h2>Recent Posts</h2>
+        </div>
+    </div>					
+    {% for post, color in recent_posts %}
+    <!-- post -->
+    <div class="col-md-4">
+        <div class="post">
+            <a class="post-img" href="blog-post.html"><img src="{{post.image.url}}" alt="{{post.title}}" height="200"></a>
+            <div class="post-body">
+                <div class="post-meta">
+                    <a class="post-category cat-{{color}}" href="category.html">{{post.category}}</a>
+                    <span class="post-date">{{post.posted.date}} &nbsp;&nbsp;|&nbsp;&nbsp;{{post.author}}</span>
+                </div>
+                <h3 class="post-title"><a href="blog-post.html">{{post.title|truncatechars:80}}</a></h3>
+            </div>
+        </div>
+    </div>
+    <!-- /post -->
+    {% endfor %}            
+</div>
+<!-- /row -->
+
+<!-- row -->
+<div class="row">
+    <div class="col-md-8">
+        <div class="row">
+            {% for post, color in sub_hero_posts  %}
+            <!-- post -->
+            <div class="col-md-12">
+                <div class="post post-thumb">
+                    <a class="post-img" href="blog-post.html"><img src="{{post.image.url}}" alt="{{post.title}}" height="300"></a>
+                    <div class="post-body">
+                        <div class="post-meta">
+                            <a class="post-category cat-{{color}}" href="category.html">{{post.category}}</a>
+                            <span class="post-date">{{post.posted.date}} &nbsp;&nbsp;|&nbsp;&nbsp;{{post.author}}</span>
+                        </div>
+                        <h3 class="post-title"><a href="blog-post.html">{{post.title|truncatechars:80}}</a></h3>
+                    </div>
+                </div>
+            </div>
+            <!-- /post -->
+            {% endfor %}
+
+            {% for post, color in sub_posts %}
+            <!-- post -->
+            <div class="col-md-6">
+                <div class="post">
+                    <a class="post-img" href="blog-post.html">
+                        {% if post.image %}
+                            <img src="{{post.image.url}}" alt="{{post.title}}" height="200">
+                        {% else %}
+                            <img src="{% static 'img/post-1.jpg' %}" height="200">
+                        {% endif %}
+                        
+                    </a>
+                    <div class="post-body">                   
+                        <div class="post-meta">
+                            <a class="post-category cat-{{color}}" href="category.html">{{post.category}}</a>
+                            <span class="post-date">{{post.posted.date}} &nbsp;&nbsp;|&nbsp;&nbsp;{{post.author}}</span>
+                        </div>
+                        <h3 class="post-title"><a href="blog-post.html">{{post.title|truncatechars:60}}</a></h3>
+                    </div>
+                </div>
+            </div>
+            <!-- /post -->
+            {% endfor %} 
+
+            <div class="col-md-12">
+            <br><br>
+                <div class="post">
+                    <button class="primary-button center-block">See More</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        {% include 'home/most-viewed-sidebar.html'%}
+    </div>
+</div>
+<!-- /row -->

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block section %}
+
+    <h2>Contact Us </h2>
+    {% for post in news %}
+        {{post.title }} > {{post.slug}}<br>
+    {% endfor %}
+{% endblock %}
+

@@ -1,0 +1,21 @@
+{% load static %}
+
+<h2>These are today's blogs </h2>
+
+
+{% for post in posts  %}
+
+    <h3>{{post.title}}</h3>
+
+    {% if post.image %}
+        <img src={{ post.image.url }} height="200" width="400">
+    {% else %}
+        <img src="{% static 'img/about1.jpg' %}" height="200" width="400">
+    {% endif %}
+
+    <p>{{post.description |truncatechars:300 }} </p>
+    <h6>Posted by: {{post.author}} </h6>
+    <h6>Posted on: {{post.posted}} </h6>
+    <br><br>
+
+{% endfor %}
