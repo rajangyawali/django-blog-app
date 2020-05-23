@@ -1,19 +1,50 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block section %}
+	<!-- section -->
+	<div class="section">
+		<!-- container -->
+		<div class="container">
 
-<!-- section -->
-		<div class="section">
-			<!-- container -->
-			<div class="container">
+			{% include 'home/recent-posts.html'%}
 
-				{% include 'home/recent-posts.html'%}
-
-			</div>
-			<!-- /container -->
 		</div>
-		<!-- /section -->
+		<!-- /container -->
+	</div>
+	<!-- /section -->
 
-		{% include 'home/featured-posts.html'%}
-		{% include 'home/most-viewed-details.html'%}
+	<!-- section -->
+	<div class="section section-grey">
+		<!-- container -->
+		<div class="container">
+			{% include 'home/featured-posts.html'%}
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /section -->
+	
+	<!-- section -->
+	<div class="section">
+		<!-- container -->
+		<div class="container">
+			<!-- row -->
+			<div class="row">
+				
+				<div class="col-md-8">
+					{% include 'home/most-read-details.html'%}
+				</div>
+
+				<div class="col-md-4">
+					{% include 'home/side-advertisement.html'%}
+					
+					{% include 'home/categories.html'%}
+					
+				</div>
+			</div>
+			<!-- /row -->
+			
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /section -->
 {% endblock section %}
