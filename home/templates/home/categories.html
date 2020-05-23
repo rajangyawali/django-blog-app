@@ -6,19 +6,10 @@
     </div>
     <div class="category-widget">
         <ul>
-            <li><a href="#" class="cat-1">Technology<span>340</span></a></li>
-            <li><a href="#" class="cat-2">Politics<span>74</span></a></li>
-            <li><a href="#" class="cat-4">Society<span>41</span></a></li>
-            <li><a href="#" class="cat-3">Economics<span>35</span></a></li>
-            <li><a href="#" class="cat-1">Education<span>340</span></a></li>
-            <li><a href="#" class="cat-2">Tourism<span>74</span></a></li>
-            <li><a href="#" class="cat-4">Development<span>41</span></a></li>
-            <li><a href="#" class="cat-3">Food<span>35</span></a></li>
-            <li><a href="#" class="cat-1">Fashion<span>340</span></a></li>
-            <li><a href="#" class="cat-2">Health<span>74</span></a></li>
-            <li><a href="#" class="cat-4">Entertainment<span>41</span></a></li>
-            <li><a href="#" class="cat-3">International<span>35</span></a></li>
-        </ul>
+            {% for category, color, count in categories_colors_counts %}
+            <li><a href="#" class="cat-{{color}}">{{category}}<span>{{count}}</span></a></li>
+            {% endfor %}
+            </ul>
     </div>
 </div>
 <!-- /catagories -->

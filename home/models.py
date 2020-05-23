@@ -34,16 +34,20 @@ class Author(models.Model):
 class BlogPost(models.Model):
     title = models.CharField(max_length=500)
     description = models.TextField()
+    slug = models.SlugField(max_length=200)
     image = models.ImageField(upload_to='blogImages/', blank=True, null=True)
     posted = models.DateTimeField(auto_now_add=True, verbose_name='Posted On')
     category = models.CharField(max_length= 20, choices=CATEGORY_OPTIONS)
     author = models.ForeignKey(Author, default=1, null=1, on_delete=models.SET_NULL)
 
+    class Meta:
+        verbose_name_plural = "Blog Posts"
+        ordering = ['-posted']
 
     def __str__(self):
         return self.title
 
-    class Meta:
-        verbose_name_plural = "Blog Posts"
-        ordering = ['-posted']
+    def __save__(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(BlogPost, self).save(*args, **kwargs)
 

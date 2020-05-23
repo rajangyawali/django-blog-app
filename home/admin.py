@@ -9,7 +9,7 @@ from . models import Author, BlogPost
 class BlogPostModelAdmin(ImportExportModelAdmin, ImportExportActionModelAdmin, admin.ModelAdmin):
     list_display = ["title", "description","category", "author",  "posted"]
     list_display_links = ["description", "category", "author"]
-    # list_editable = ["title"]
+    prepopulated_fields = {'slug': ('title',)}
     list_filter = ["category", "author", "posted"]
     
     class Meta:
