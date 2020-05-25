@@ -7,7 +7,7 @@
     <div class="category-widget">
         <ul>
             {% for category, color, count in categories_colors_counts %}
-            <li><a href="#" class="cat-{{color}}">{{category}}<span>{{count}}</span></a></li>
+            <li><a href="{% url 'home:posts' category %}" class="cat-{{color}}">{{category}}<span>{{count}}</span></a></li>
             {% endfor %}
             </ul>
     </div>
