@@ -51,3 +51,24 @@ class BlogPost(models.Model):
         self.slug = slugify(self.title)
         super(BlogPost, self).save(*args, **kwargs)
 
+class Search(models.Model):
+    user = models.CharField(max_length=20, blank = True, null = True)
+    search = models.CharField(max_length = 256)
+    timestamp = models.DateTimeField(auto_now_add = True, verbose_name = "Searched on")
+
+    class Meta:
+        verbose_name_plural = "Searches"
+
+    def __str__(self):
+        return self.search
+
+class Contact(models.Model):
+    email = models.EmailField(verbose_name='Email Address')
+    subject = models.CharField(max_length=200, blank=False, null=False)
+    message = models.TextField(blank=False, null=False)
+
+    class Meta:
+        verbose_name_plural = 'Message from Customers'
+
+    def __str__(self):
+        return self.subject

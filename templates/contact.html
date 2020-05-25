@@ -145,7 +145,11 @@
 			<!-- /Page Header -->
 		</header>
 		<!-- /Header -->
-
+		{% if messages %}
+			{% for message in messages %}
+				{{message}}
+			{% endfor %}
+		{% endif %}
 		<!-- section -->
 		<div class="section">
 			<!-- container -->

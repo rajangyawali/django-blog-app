@@ -1,5 +1,9 @@
-from django.shortcuts import render, get_object_or_404
-from . models import BlogPost
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
+from django.db.models import Q
+from . models import BlogPost, Search, Contact
+from .forms import ContactForm
+from django.contrib import messages
 
 flag = 0
 categories = {'Technology' :1, 'Politics' : 2, 'Society' : 3, 'Economics' : 4, 'Education' : 1, 'Tourism' : 2,
@@ -55,10 +59,19 @@ def details(request, slug):
 
 def posts(request, category):
     all_posts = BlogPost.objects.all()
-    if category== 'posts':
-        posts = all_posts
+    search_query = request.GET.get('q')
+    search_message=''
+    if search_query:
+        posts = all_posts.filter(Q(title__icontains = search_query))
+        search = Search(user=request.user, search=search_query)
+        search.save()
+        if not posts:
+            search_message = '<i> No results found for your search query !! </i>'
     else:
-        posts = all_posts.filter(category = category)
+        if category== 'posts':
+            posts = all_posts
+        else:
+            posts = all_posts.filter(category = category)
     categories_colors_counts = categories_counts(all_posts)
 
     post_categories = [post.category for post in posts]
@@ -67,32 +80,50 @@ def posts(request, category):
     context={
         'category':category,
         'posts':posts,
-        'categories_colors_counts':categories_colors_counts
+        'categories_colors_counts':categories_colors_counts,
+        'search_message':search_message
     }
     return render(request, 'home/posts.html', context)
 
 def contact(request):
-    news = BlogPost.objects.all()
-    context ={'news':news}
-    return render(request, 'home/contact.html', context)
+    if request.method == 'GET':
+        form = ContactForm()
+    else:
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            subject = form.cleaned_data['subject']            
+            message = form.cleaned_data['message']
+            contact = Contact(email=email, subject=subject, message=message)
+            contact.save()
+            messages.success(request, 'Your message has been sent. Thank you !!')
+            return redirect('home')
+        else:
+            messages.error(request, "Error sending message !")
+            return render(request, "home/contact.html", context={"form":form})
+
+    return render(request, 'home/contact.html', context={"form":form})
 
 def about(request):
     context ={}
-    return render(request, 'home/contact.html', context)
+    return render(request, 'home/about.html', context)
 
-def category(request):
-    posts = BlogPost.objects.all()
-    post_categories = [post.category for post in posts]
+def searchPosts(request):
+    search_query = request.GET.get('q')
 
-    colors = [categories[category] for category in post_categories]
-    categories_count = [post_categories.count(key) for key in categories.keys()]    
+# def category(request):
+#     posts = BlogPost.objects.all()
+#     post_categories = [post.category for post in posts]
+
+#     colors = [categories[category] for category in post_categories]
+#     categories_count = [post_categories.count(key) for key in categories.keys()]    
  
-    categories_colors_counts = zip(categories.keys(), categories.values(), categories_count)
+#     categories_colors_counts = zip(categories.keys(), categories.values(), categories_count)
 
-    context = {
-        'categories_colors_counts':categories_colors_counts
-    }
-    return render(request, 'home/categories.html', context)
+#     context = {
+#         'categories_colors_counts':categories_colors_counts
+#     }
+#     return render(request, 'home/categories.html', context)
     
 
 def test(request):
