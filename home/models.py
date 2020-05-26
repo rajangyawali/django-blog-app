@@ -51,6 +51,16 @@ class BlogPost(models.Model):
         self.slug = slugify(self.title)
         super(BlogPost, self).save(*args, **kwargs)
 
+class PostImages(models.Model):
+    post = models.ForeignKey(BlogPost, default=None, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='postImages/')
+
+    class Meta:
+        verbose_name_plural = "Post Images"
+
+    def __str__(self):
+        return self.post.title
+
 class Search(models.Model):
     user = models.CharField(max_length=20, blank = True, null = True)
     search = models.CharField(max_length = 256)
@@ -58,6 +68,7 @@ class Search(models.Model):
 
     class Meta:
         verbose_name_plural = "Searches"
+        ordering = ['-timestamp']
 
     def __str__(self):
         return self.search
@@ -72,3 +83,17 @@ class Contact(models.Model):
 
     def __str__(self):
         return self.subject
+
+class Advertisement(models.Model):
+    name = models.CharField(max_length=200, verbose_name='Advertisement Name')
+    company = models.CharField(max_length=50, verbose_name='Advertisement Company')
+    type=models.CharField(max_length=10, choices=(('Main', 'Main'), ('Side', 'Side')))
+    image = models.ImageField(upload_to="advertisementImages")
+    posted = models.DateTimeField(auto_now_add=True, verbose_name='Posted On')
+
+    class Meta:
+        verbose_name_plural = "Advertisement Images"
+        ordering = ['-posted']
+
+    def __str__(self):
+        return self.name + ' from ' + self.company

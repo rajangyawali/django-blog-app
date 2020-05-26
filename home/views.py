@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.db.models import Q
-from . models import BlogPost, Search, Contact
+from . models import BlogPost, Search, Contact, Advertisement
 from .forms import ContactForm
 from django.contrib import messages
 
@@ -9,7 +9,11 @@ flag = 0
 categories = {'Technology' :1, 'Politics' : 2, 'Society' : 3, 'Economics' : 4, 'Education' : 1, 'Tourism' : 2,
                 'Development' : 3,'Food' : 4, 'Fashion' : 1, 'Health' : 2, 'Entertainment' : 3, 'International' : 4}
 
+def main_adv():
+    return Advertisement.objects.all().filter(type='Main')
 
+def side_adv():
+    return Advertisement.objects.all().filter(type='Side')    
 
 def categories_counts(posts):
     post_categories = [post.category for post in posts]
@@ -33,7 +37,9 @@ def home(request):
         'recent_posts':recent_posts,
         'sub_hero_posts':sub_hero_posts,
         'sub_posts':sub_posts,
-        'categories_colors_counts':categories_colors_counts
+        'categories_colors_counts':categories_colors_counts,
+        'main_adv':main_adv(),
+        'side_adv':side_adv()
     }
     return render(request, 'home/index.html', context)
 
@@ -52,7 +58,9 @@ def details(request, slug):
     post = get_object_or_404(BlogPost, slug = slug)
     context={
         'post':post,
-        'categories_colors_counts':categories_colors_counts
+        'categories_colors_counts':categories_colors_counts,
+        'main_adv':main_adv(),
+        'side_adv':side_adv()
         }
     return render (request, 'home/post-details.html', context)
 
@@ -81,7 +89,9 @@ def posts(request, category):
         'category':category,
         'posts':posts,
         'categories_colors_counts':categories_colors_counts,
-        'search_message':search_message
+        'search_message':search_message,
+        'main_adv':main_adv(),
+        'side_adv':side_adv()
     }
     return render(request, 'home/posts.html', context)
 
@@ -105,7 +115,10 @@ def contact(request):
     return render(request, 'home/contact.html', context={"form":form})
 
 def about(request):
-    context ={}
+    context ={
+        'main_adv':main_adv(),
+        'side_adv':side_adv()
+    }
     return render(request, 'home/about.html', context)
 
 def searchPosts(request):
@@ -129,3 +142,9 @@ def searchPosts(request):
 def test(request):
     posts = BlogPost.objects.all()
     return render(request, 'home/test.html', {'posts':posts})
+
+def error_404(request, exception):
+    return render(request, 'home/error_404.html', status='404')
+
+def error_500(request):
+    return render(request, 'home/error_500.html', status='500')

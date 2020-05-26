@@ -17,9 +17,6 @@
                             <img class="img-responsive" src="{{post.image.url}}" alt="{{post.title}}">
                             <figcaption>{{post.title}}</figcaption>
                         </figure>
-                        <blockquote class="blockquote">
-                            
-                        </blockquote>
                         <p>{{post.description |safe}}</p>
                         </div>
                     <div class="post-shares sticky-shares">
@@ -39,13 +36,18 @@
                     <div class="post-author">
                         <div class="media">
                             <div class="media-left">
-                                <img class="media-object" src={{post.author.image.url}} alt="">
+                                {% if post.author.image %}
+                                    <img class="media-object" src={{post.author.image.url}} alt="">
+                                {% else %}
+                                    <img class="media-object" src="{% static 'img/author.jpg' %}" alt="">
+                                {% endif %}                                
                             </div>
                             <div class="media-body">
                                 <div class="media-heading">
                                     <h3>{{post.author}}</h3>
                                 </div>
                                 <p>I am {{post.author}}. You can mail me at {{post.author.email}}. I love blogging.</p>
+                                <p>Follow me on: </p>
                                 <ul class="author-social">
                                     <li><a href="#"><i class="fa fa-facebook"></i></a></li>
                                     <li><a href="#"><i class="fa fa-twitter"></i></a></li>
