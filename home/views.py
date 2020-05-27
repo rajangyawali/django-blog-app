@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.core.paginator import Paginator, EmptyPage, InvalidPage, PageNotAnInteger
 from django.urls import reverse
 from django.db.models import Q
 from . models import BlogPost, Search, Contact, Advertisement
@@ -6,6 +7,7 @@ from .forms import ContactForm
 from django.contrib import messages
 
 flag = 0
+PAGINATION_NUMBER = 8
 categories = {'Technology' :1, 'Politics' : 2, 'Society' : 3, 'Economics' : 4, 'Education' : 1, 'Tourism' : 2,
                 'Development' : 3,'Food' : 4, 'Fashion' : 1, 'Health' : 2, 'Entertainment' : 3, 'International' : 4}
 
@@ -67,10 +69,12 @@ def details(request, slug):
 
 def posts(request, category):
     all_posts = BlogPost.objects.all()
-    search_query = request.GET.get('q')
+    search_query = request.GET.get('q','')
     search_message=''
+    page_range=''
     if search_query:
-        posts = all_posts.filter(Q(title__icontains = search_query))
+        searched_posts = all_posts.filter(Q(title__icontains = search_query))
+        posts = searched_posts
         search = Search(user=request.user, search=search_query)
         search.save()
         if not posts:
@@ -80,14 +84,34 @@ def posts(request, category):
             posts = all_posts
         else:
             posts = all_posts.filter(category = category)
+
+    paginator = Paginator(posts, PAGINATION_NUMBER)
+    page = request.GET.get('page',1)
+
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(PAGINATION_NUMBER)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+
+    index = posts.number - 1
+    max_index = len(paginator.page_range)
+    start_index = index - 3 if index >= 3 else 0
+    end_index = index + 3 if index <= max_index - 3 else max_index
+    page_range = list(paginator.page_range)[start_index:end_index]
+
     categories_colors_counts = categories_counts(all_posts)
 
     post_categories = [post.category for post in posts]
     colors = [categories[category] for category in post_categories]
-    posts = zip(posts, colors) 
+    posts_colors = zip(posts, colors) 
     context={
         'category':category,
+        'posts_colors':posts_colors,
         'posts':posts,
+        'query':search_query,
+        'page_range':page_range,
         'categories_colors_counts':categories_colors_counts,
         'search_message':search_message,
         'main_adv':main_adv(),
@@ -123,21 +147,6 @@ def about(request):
 
 def searchPosts(request):
     search_query = request.GET.get('q')
-
-# def category(request):
-#     posts = BlogPost.objects.all()
-#     post_categories = [post.category for post in posts]
-
-#     colors = [categories[category] for category in post_categories]
-#     categories_count = [post_categories.count(key) for key in categories.keys()]    
- 
-#     categories_colors_counts = zip(categories.keys(), categories.values(), categories_count)
-
-#     context = {
-#         'categories_colors_counts':categories_colors_counts
-#     }
-#     return render(request, 'home/categories.html', context)
-    
 
 def test(request):
     posts = BlogPost.objects.all()

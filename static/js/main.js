@@ -24,6 +24,12 @@
 		$('.search-form').removeClass('active');
 	});
 
+	// Pagination
+	$('.pagination-inner a').on('click', function() {
+		$(this).siblings().removeClass('pagination-active');
+		$(this).addClass('pagination-active');
+	});
+
 	// Aside Nav
 	$(document).click(function(event) {
 		if (!$(event.target).closest($('#nav-aside')).length) {

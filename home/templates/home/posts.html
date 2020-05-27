@@ -20,7 +20,7 @@
                     </div>
                 </div>
 				<div class="col-md-8">
-					{% for post, color in posts %}
+					{% for post, color in posts_colors %}
                         <!-- post -->
                         <div class="col-md-12">
                             <div class="post post-row">
@@ -37,7 +37,38 @@
                         </div>
                         <!-- /post -->
                     {% endfor %}
+
+					{% if posts.has_other_pages %}
+					<nav class="pagination-container">
+						<div class="pagination">
+							{% if  posts.has_previous %}
+								<a class="pagination-newer" href="?{% if query %}q={{query}}&{% endif %}page={{ posts.previous_page_number }}">PREV</a>
+							{% else %}
+								<a class="disabled"></a>
+							{% endif %}
+
+							{% for pages in page_range  %}
+								<span class="pagination-inner">
+									{% if posts.number == pages %}
+									<a class="pagination-active" href="#">{{pages}}</a>																
+									{% else %}
+										<a href="?{% if query %}q={{query}}&{% endif %}page={{pages}}">{{pages}}</a>
+									{% endif %}
+								</span>							
+							{% endfor %}
+
+							{% if  posts.has_next %}
+								<a class="pagination-older" href="?{% if query %}q={{query}}&{% endif %}page={{ posts.next_page_number }}">NEXT</a>
+							{% else %}
+								<a class="disabled"></a>
+							{% endif %}
+						</div>
+					</nav>
+					{% endif %}
 				</div>
+
+				
+
 
 				<div class="col-md-4">
 					{% include 'home/side-advertisement.html'%}
@@ -47,9 +78,8 @@
 				</div>
 			</div>
 			<!-- /row -->
-			
 		</div>
-		<!-- /container -->
+		<!-- /container -->						
 	</div>
 	<!-- /section -->
 {% endblock section %}
