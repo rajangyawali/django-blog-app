@@ -2,9 +2,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator, EmptyPage, InvalidPage, PageNotAnInteger
 from django.urls import reverse
 from django.db.models import Q
-from . models import BlogPost, Search, Contact, Advertisement
-from .forms import ContactForm
 from django.contrib import messages
+from django.core.mail import send_mail
+from django.conf import settings
+from . models import BlogPost, Search, Contact, Advertisement, Subscriber
+from .forms import ContactForm, SubscriberForm
 
 flag = 0
 PAGINATION_NUMBER = 8
@@ -23,9 +25,29 @@ def categories_counts(posts):
     return zip(categories.keys(), categories.values(), categories_count)
 
 def home(request):
+    # Code for newsletter subscription from subscribers. This will write 
+    # valid email addresses to our Subscriber model
+    if request.method == "POST":
+        form = SubscriberForm(request.POST)
+        if form.is_valid():
+            subscriber = form.cleaned_data['subscriber']
+            # send_mail(subject="Subscription", 
+            #         message="You have successfully subscribed our newsletter. \n You will get recent updates of our news",
+            #         from_email=settings.EMAIL_HOST_USER, recipient_list=[subscriber], fail_silently=False)   
+            try:
+                subscriber = Subscriber(subscriber=subscriber)
+                subscriber.save()
+                messages.success(request, 'Your have successfully subscribed our newsletter. You will be getting most recent updates. Thank you !!')
+            except:
+                messages.error(request, 'Error subscribing newsletter. You have already subscribed !!')
+        else:
+            messages.error(request, 'Error subscribing newsletter. Please, try again with valid email address !!')    
+    
+    # Code for fetching all posts in the home page
     posts = BlogPost.objects.all()
     categories_colors_counts = categories_counts(posts)
 
+    # Code for showing posts category counts and their colors
     post_categories = [post.category for post in posts]
     colors = [categories[category] for category in post_categories]      
     
@@ -41,7 +63,8 @@ def home(request):
         'sub_posts':sub_posts,
         'categories_colors_counts':categories_colors_counts,
         'main_adv':main_adv(),
-        'side_adv':side_adv()
+        'side_adv':side_adv(),
+        'form':SubscriberForm()
     }
     return render(request, 'home/index.html', context)
 

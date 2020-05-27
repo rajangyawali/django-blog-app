@@ -97,3 +97,14 @@ class Advertisement(models.Model):
 
     def __str__(self):
         return self.name + ' from ' + self.company
+
+class Subscriber(models.Model):
+    subscriber = models.EmailField(max_length=30, unique=True, blank=False, null=False, verbose_name="Subscriber Email")
+    subscribed = models.DateTimeField(auto_now_add=True, verbose_name='Sunscribed On')
+
+    class Meta:
+        verbose_name_plural = 'Subscribers List'
+        ordering = ['-subscribed']
+
+    def __str__(self):
+        return self.subscriber
