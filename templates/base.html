@@ -80,8 +80,8 @@
 						<ul class="nav-aside-menu">
 							<li><a href="{% url 'home'%}">Home</a></li>
 							<li><a href="{% url 'home:about'%}">About Us</a></li>
-							<li><a href="#">Join Us</a></li>
-							<li><a href="#">Advertisement</a></li>
+							<li><a href="{% url 'home:join'%}">Join Us</a></li>
+							<li><a href="{% url 'home:advertisement'%}">Advertisement</a></li>
 							<li><a href="{% url 'home:contact'%}">Contacts</a></li>
 						</ul>
 					</div>
@@ -126,8 +126,8 @@
 								<a href="{% url 'home'%}" class="logo"><img src="{% static 'img/logo-footer.svg'%}" alt=""></a>
 							</div>
 							<ul class="footer-nav">
-								<li><a href="#">Privacy Policy</a></li>
-								<li><a href="#">Advertisement</a></li>
+								<li><a href="{% url 'home:privacy'%}">Privacy Policy</a></li>
+								<li><a href="{% url 'home:advertisement'%}">Advertisement</a></li>
 							</ul>
 							<div class="footer-copyright">
 								<span>
@@ -144,7 +144,7 @@
 									<h3 class="footer-title">About Us</h3>
 									<ul class="footer-links">
 										<li><a href="{% url 'home:about'%}">About Us</a></li>
-										<li><a href="#">Join Us</a></li>
+										<li><a href="{% url 'home:join'%}">Join Us</a></li>
 										<li><a href="{% url 'home:contact'%}">Contacts</a></li>
 									</ul>
 								</div>

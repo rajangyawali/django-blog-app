@@ -175,12 +175,22 @@ def about(request):
     }
     return render(request, 'home/about.html', context)
 
-def searchPosts(request):
-    search_query = request.GET.get('q')
+def advertisement(request):    
+    context = {
+        'main_adv':main_adv(),
+        'side_adv':side_adv()
+    }
+    return render(request, 'home/advertisement.html', context)
 
-def test(request):
-    posts = BlogPost.objects.all()
-    return render(request, 'home/test.html', {'posts':posts})
+def join(request):    
+    context = {
+        'main_adv':main_adv(),
+        'side_adv':side_adv()
+    }
+    return render(request, 'home/join.html', context)
+
+def privacy(request):
+    return render(request, 'home/privacy.html')
 
 def error_404(request, exception):
     return render(request, 'home/error_404.html', status='404')
