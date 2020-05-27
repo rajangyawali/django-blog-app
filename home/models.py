@@ -17,7 +17,17 @@ CATEGORY_OPTIONS = (
     ('Fashion', 'Fashion'),
     ('Entertainment', 'Entertainment')
 )
+class AuthorFollowLinks(models.Model):
+    facebook_link = models.URLField(blank=True, null=True)
+    twitter_link = models.URLField(blank=True, null=True)
+    google_plus_link = models.URLField(blank=True, null=True)
+    instagram_link = models.URLField(blank=True, null=True)
 
+    class Meta:
+        verbose_name_plural = 'Authors Follow Link'
+
+    def __str__(self):
+        return 'Facebook Link: ' + self.facebook_link
 
 class Author(models.Model):
     first_name = models.CharField(max_length=20, verbose_name = 'First Name')
@@ -25,8 +35,9 @@ class Author(models.Model):
     age = models.IntegerField()
     email = models.EmailField(max_length=30, unique=True, verbose_name= 'Email Address')
     phone = models.IntegerField(max_length=10)
-    image= models.ImageField(upload_to='authorImages/', blank=True, null =True)
-
+    image= models.ImageField(upload_to='authorImages/', blank=True, null=True)
+    description = models.CharField(max_length=100, blank=True, null=True, verbose_name="Short Info")
+    links = models.ForeignKey(AuthorFollowLinks, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.first_name + ' ' + self.last_name
@@ -39,7 +50,7 @@ class BlogPost(models.Model):
     image = models.ImageField(upload_to='blogImages/', blank=True, null=True)
     posted = models.DateTimeField(auto_now_add=True, verbose_name='Posted On')
     category = models.CharField(max_length= 20, choices=CATEGORY_OPTIONS)
-    author = models.ForeignKey(Author, default=1, null=1, on_delete=models.SET_NULL)
+    author = models.ForeignKey(Author, default=1, null=True, on_delete=models.SET_NULL)
 
     class Meta:
         verbose_name_plural = "Blog Posts"

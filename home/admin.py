@@ -2,7 +2,8 @@ from django.contrib import admin
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 from import_export.admin import ImportExportActionModelAdmin
-from . models import Author, BlogPost, PostImages, Search, Contact, Advertisement, Subscriber
+from . models import (Author, BlogPost, PostImages, Search, 
+                        Contact, Advertisement, Subscriber, AuthorFollowLinks)
 
 # Register your models here.
 
@@ -15,12 +16,41 @@ class BlogPostModelAdmin(ImportExportModelAdmin, ImportExportActionModelAdmin, a
     class Meta:
         model = BlogPost
 
-admin.site.register(Author)
-admin.site.register(Search)
-admin.site.register(Contact)
-admin.site.register(Advertisement)
-admin.site.register(Subscriber)
+class AuthorModelAdmin(ImportExportModelAdmin, ImportExportActionModelAdmin, admin.ModelAdmin):
+    class Meta:
+        model = Author
+
+class SearchModelAdmin(ImportExportModelAdmin, ImportExportActionModelAdmin, admin.ModelAdmin):
+    class Meta:
+        model = Search
+
+class ContactModelAdmin(ImportExportModelAdmin, ImportExportActionModelAdmin, admin.ModelAdmin):
+    class Meta:
+        model = Contact
+
+class AdvertisementModelAdmin(ImportExportModelAdmin, ImportExportActionModelAdmin, admin.ModelAdmin):
+    class Meta:
+        model = Advertisement
+
+class SubscriberModelAdmin(ImportExportModelAdmin, ImportExportActionModelAdmin, admin.ModelAdmin):
+    class Meta:
+        model = Subscriber
+
+class AuthorFollowLinksModelAdmin(ImportExportModelAdmin, ImportExportActionModelAdmin, admin.ModelAdmin):
+    class Meta:
+        model = AuthorFollowLinks
+
+class PostImagesModelAdmin(ImportExportModelAdmin, ImportExportActionModelAdmin, admin.ModelAdmin):
+    class Meta:
+        model = PostImages
+
+admin.site.register(Author, AuthorModelAdmin)
+admin.site.register(AuthorFollowLinks, AuthorFollowLinksModelAdmin)
+admin.site.register(Search, SearchModelAdmin)
+admin.site.register(Contact, ContactModelAdmin)
+admin.site.register(Advertisement, AdvertisementModelAdmin)
+admin.site.register(Subscriber, SubscriberModelAdmin)
 admin.site.register(BlogPost, BlogPostModelAdmin)
-admin.site.register(PostImages)
+admin.site.register(PostImages, PostImagesModelAdmin)
 
 

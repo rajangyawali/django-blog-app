@@ -5,7 +5,7 @@ from django.db.models import Q
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
-from . models import BlogPost, Search, Contact, Advertisement, Subscriber
+from . models import Author, BlogPost, Search, Contact, Advertisement, Subscriber
 from .forms import ContactForm, SubscriberForm
 
 flag = 0
@@ -169,6 +169,7 @@ def contact(request):
 
 def about(request):
     context ={
+        'authors': Author.objects.all(),
         'main_adv':main_adv(),
         'side_adv':side_adv()
     }

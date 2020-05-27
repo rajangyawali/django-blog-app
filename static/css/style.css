@@ -40,6 +40,7 @@ body {
     font-size: 16px;
     font-weight: 300;
     color: #3d455c;
+    background-color: #f6f6f8;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
@@ -238,7 +239,7 @@ textarea.input {
     right: 0;
     top: 0;
     z-index: 90;
-    background-color: #FFF;
+    background-color: rgb(241, 240, 240);
     -webkit-box-shadow: 0px -1px 0px 0px #eceef2 inset;
     box-shadow: 0px -1px 0px 0px #eceef2 inset;
 }
@@ -467,7 +468,7 @@ textarea.input {
     right: 0;
     top: 0;
     bottom: 0;
-    background-color: #fff;
+    background-color: rgb(192, 186, 186);
     max-width: 360px;
     width: 100%;
     padding: 80px 20px;
@@ -1093,6 +1094,7 @@ textarea.input {
 #footer {
     padding-bottom: 40px;
     margin-top: 40px;
+    background-color: rgb(238, 236, 236)
 }
 
 #footer .container {
@@ -1111,7 +1113,7 @@ textarea.input {
 }
 
 .footer-widget a {
-    color: #a7b3c6;
+    color: #72808d;
     -webkit-transition: 0.2s color;
     transition: 0.2s color;
 }
@@ -1119,7 +1121,7 @@ textarea.input {
 .footer-widget a:hover,
 .footer-widget a:focus {
     text-decoration: none;
-    color: #212631;
+    color: #454c5c;
 }
 
 .footer-logo {
@@ -1137,7 +1139,7 @@ textarea.input {
 
 .footer-copyright {
     margin-top: 20px;
-    color: #a7b3c6;
+    color: #99a4b4;
     font-size: 13px;
 }
 
@@ -1147,6 +1149,7 @@ textarea.input {
 
 .footer-newsletter form>input.input {
     padding-right: 55px;
+    background-color: #f5f6f8;
 }
 
 .footer-newsletter form>.newsletter-btn {

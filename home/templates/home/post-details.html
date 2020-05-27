@@ -31,6 +31,7 @@
 
                 {% include 'home/main-advertisement.html'%}
                 
+                {% if post.author %}
                 <!-- author -->
                 <div class="section-row">
                     <div class="post-author">
@@ -46,19 +47,25 @@
                                 <div class="media-heading">
                                     <h3>{{post.author}}</h3>
                                 </div>
-                                <p>I am {{post.author}}. You can mail me at {{post.author.email}}. I love blogging.</p>
-                                <p>Follow me on: </p>
+                                {% if post.author.description %}
+                                    <p>{{post.author.description}}</p>
+                                {% endif %}
+                                <p>You can mail me at: {{post.author.email}}</p>
+                                {% if post.author.links %}
                                 <ul class="author-social">
-                                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                                    <li>Follow me on: </li>
+                                    {% if post.author.links.facebook_link %}<li><a href="{{post.author.links.facebook_link}}"><i class="fa fa-facebook"></i></a></li>{% endif %}
+                                    {% if post.author.links.twitter_link %}<li><a href="{{post.author.links.twitter_link}}"><i class="fa fa-twitter"></i></a></li>{% endif %}
+                                    {% if post.author.links.google_plus_link %}<li><a href="{{post.author.links.google_plus_link}}"><i class="fa fa-google-plus"></i></a></li>{% endif %}
+                                    {% if post.author.links.instagram_link %}<li><a href="{{post.author.links.instagram_link}}"><i class="fa fa-instagram"></i></a></li>{% endif %}
                                 </ul>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- /author -->
+                {% endif %}
 
                 <!-- comments -->
                 <div class="section-row">

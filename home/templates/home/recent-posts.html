@@ -35,7 +35,7 @@
             <div class="post-body">
                 <div class="post-meta">
                     <a class="post-category cat-{{color}}" href="{% url 'home:posts' post.category %}">{{post.category}}</a>
-                    <span class="post-date">{{post.posted.date}} &nbsp;&nbsp;|&nbsp;&nbsp;{{post.author}}</span>
+                    <span class="post-date">{{post.posted.date}}{% if post.author %} &nbsp;&nbsp;|&nbsp;&nbsp;{{post.author}}{% endif %}</span>
                 </div>
                 <h3 class="post-title"><a href="{% url 'home:details' post.slug %}">{{post.title|truncatechars:75}}</a></h3>
             </div>
@@ -58,7 +58,7 @@
                     <div class="post-body">
                         <div class="post-meta">
                             <a class="post-category cat-{{color}}" href="{% url 'home:posts' post.category %}">{{post.category}}</a>
-                            <span class="post-date">{{post.posted.date}} &nbsp;&nbsp;|&nbsp;&nbsp;{{post.author}}</span>
+                            <span class="post-date">{{post.posted.date}} {% if post.author %}&nbsp;&nbsp;|&nbsp;&nbsp;{{post.author}}{% endif %}</span>
                         </div>
                         <h3 class="post-title"><a href="{% url 'home:details' post.slug %}">{{post.title|truncatechars:80}}</a></h3>
                     </div>
@@ -82,7 +82,7 @@
                     <div class="post-body">                   
                         <div class="post-meta">
                             <a class="post-category cat-{{color}}" href="{% url 'home:posts' post.category %}">{{post.category}}</a>
-                            <span class="post-date">{{post.posted.date}} &nbsp;&nbsp;|&nbsp;&nbsp;{{post.author}}</span>
+                            <span class="post-date">{{post.posted.date}} {% if post.author %}&nbsp;&nbsp;|&nbsp;&nbsp;{{post.author}} {% endif %}</span>
                         </div>
                         <h3 class="post-title"><a href="{% url 'home:details' post.slug %}">{{post.title|truncatechars:60}}</a></h3>
                     </div>

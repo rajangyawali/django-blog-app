@@ -54,6 +54,47 @@
                     </div>
                 </div>
                 {% include 'home/main-advertisement.html' %}
+
+                <div class="section-row">
+                  <h3>  Our Bloggers </h3>
+                </div>
+                <!-- author -->
+                {% for author in authors %}
+                <div class="section-row">
+                    <div class="post-author">
+                        <div class="media">
+                            <div class="media-left">
+                                {% if author.image %}
+                                    <img class="media-object" src={{author.image.url}} alt="">
+                                {% else %}
+                                    <img class="media-object" src="{% static 'img/author.jpg' %}" alt="">
+                                {% endif %}                                
+                            </div>
+                            <div class="media-body">
+                                <div class="media-heading">
+                                    <h3>{{author}}</h3>
+                                </div>
+                                {% if author.description %}
+                                    <p>{{author.description}}</p>
+                                {% endif %}
+                                <p>You can mail me at: {{author.email}}</p>
+                                {% if author.links %}
+                                <ul class="author-social">
+                                    <li>Follow me on: </li>
+                                    {% if author.links.facebook_link %}<li><a href="{{author.links.facebook_link}}"><i class="fa fa-facebook"></i></a></li>{% endif %}
+                                    {% if author.links.twitter_link %}<li><a href="{{author.links.twitter_link}}"><i class="fa fa-twitter"></i></a></li>{% endif %}
+                                    {% if author.links.google_plus_link %}<li><a href="{{author.links.google_plus_link}}"><i class="fa fa-google-plus"></i></a></li>{% endif %}
+                                    {% if author.links.instagram_link %}<li><a href="{{author.links.instagram_link}}"><i class="fa fa-instagram"></i></a></li>{% endif %}
+                                </ul>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                <!-- /author -->
+
+
             </div>
             
             <!-- aside -->
