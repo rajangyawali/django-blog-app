@@ -45,22 +45,28 @@ def home(request):
     
     # Code for fetching all posts in the home page
     posts = BlogPost.objects.all()
+    featured_posts = posts.filter(featured = 'True')[:3]
+    # Code for showing posts category counts and their colors
     categories_colors_counts = categories_counts(posts)
 
-    # Code for showing posts category counts and their colors
+    # Code for showing category of each post and their category color
     post_categories = [post.category for post in posts]
-    colors = [categories[category] for category in post_categories]      
+    colors = [categories[category] for category in post_categories]  
+    featured_post_categories = [post.category for post in featured_posts]
+    featured_colors = [categories[category] for category in featured_post_categories]     
     
     hero_posts = zip(posts[0:2], colors[0:2])    
     recent_posts = zip(posts[2:8], colors[2:8])
     sub_hero_posts = zip(posts[8:9], colors[8:9])
     sub_posts = zip(posts[9:15], colors[9:15])
+    featured_posts = zip(featured_posts, featured_colors)
 
     context = {
         'hero_posts':hero_posts,
         'recent_posts':recent_posts,
         'sub_hero_posts':sub_hero_posts,
         'sub_posts':sub_posts,
+        'featured_posts':featured_posts,
         'categories_colors_counts':categories_colors_counts,
         'main_adv':main_adv(),
         'side_adv':side_adv(),

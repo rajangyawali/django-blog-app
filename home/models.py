@@ -34,6 +34,7 @@ class Author(models.Model):
 class BlogPost(models.Model):
     title = models.CharField(max_length=500)
     description = models.TextField()
+    featured = models.CharField(max_length=5, default = 'False', choices=(('True','True'),('False','False')))
     slug = models.SlugField(max_length=200)
     image = models.ImageField(upload_to='blogImages/', blank=True, null=True)
     posted = models.DateTimeField(auto_now_add=True, verbose_name='Posted On')
