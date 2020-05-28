@@ -44,7 +44,7 @@
 							{% if  posts.has_previous %}
 								<a class="pagination-newer" href="?{% if query %}q={{query}}&{% endif %}page={{ posts.previous_page_number }}">PREV</a>
 							{% else %}
-								<a class="disabled"></a>
+								<a class="disabled">.</a>
 							{% endif %}
 
 							{% for pages in page_range  %}
@@ -60,7 +60,7 @@
 							{% if  posts.has_next %}
 								<a class="pagination-older" href="?{% if query %}q={{query}}&{% endif %}page={{ posts.next_page_number }}">NEXT</a>
 							{% else %}
-								<a class="disabled"></a>
+								<a class="disabled">.</a>
 							{% endif %}
 						</div>
 					</nav>
@@ -74,6 +74,8 @@
 					{% include 'home/side-advertisement.html'%}
 					
 					{% include 'home/categories.html'%}
+
+					{% include 'home/most-read-sidebar.html' %}
 					
 				</div>
 			</div>

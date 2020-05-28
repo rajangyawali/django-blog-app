@@ -5,11 +5,11 @@
         <h2>Most Read</h2>
     </div>
 
-    {% for i in '0123456789' %}
+    {% for post in popular_posts %}
     <div class="post post-widget">
-        <a class="post-img" href="blog-post.html"><img src="{% static 'img/widget-1.jpg' %}" alt=""></a>
+        <a class="post-img" href="{% url 'home:details' post.slug %}"><img src="{{post.image.url}}" alt="" height="70"></a>
         <div class="post-body">
-            <h3 class="post-title"><a href="blog-post.html">Tell-A-Tool: Guide To Web Design And Development Tools</a></h3>
+            <h4 class="post-title"><a href="{% url 'home:details' post.slug %}">{{post.title}}</a></h4>
         </div>
     </div>
     {% endfor %}

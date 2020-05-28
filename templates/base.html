@@ -10,6 +10,8 @@
 
 		<title>Blog App by Rajan Gyawali</title>
 
+		<link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+
 		<!-- Google font -->
 		<link href="https://fonts.googleapis.com/css?family=Nunito+Sans:700%7CNunito:300,600" rel="stylesheet"> 
 
@@ -48,7 +50,7 @@
 						<!-- nav -->
 						<ul class="nav-menu nav navbar-nav">
 							<li><a href="{% url 'home:posts' 'posts'  %}">News</a></li>
-							<li><a href="category.html">Popular</a></li>
+							<li><a href="{% url 'home:posts' 'popular'  %}">Popular</a></li>
 							<li class="cat-1"><a href="{% url 'home:posts' 'Technology' %}">Technology</a></li>
 							<li class="cat-2"><a href="{% url 'home:posts' 'Politics' %}">Politics</a></li>
 							<li class="cat-3"><a href="{% url 'home:posts' 'Society' %}">Society</a></li>
@@ -87,9 +89,21 @@
 					</div>
 					<!-- /nav -->
 
+					<!-- nav -->
+					<div class="section-row">
+						<ul class="nav-aside-menu">
+							<li><a href="{% url 'home:posts' 'Technology' %}">Technology</a></li>
+							<li><a href="{% url 'home:posts' 'Politics' %}">Politics</a></li>
+							<li><a href="{% url 'home:posts' 'Society' %}">Society</a></li>
+							<li><a href="{% url 'home:posts' 'International' %}">International</a></li>
+							<li><a href="{% url 'home:posts' 'Entertainment' %}">Entertainment</a></li>
+						</ul>
+					</div>
+					<!-- /nav -->
+
 					<!-- social links -->
 					<div class="section-row">
-						<h3>Follow us</h3>
+						<h4>Follow us</h4>
 						<ul class="nav-aside-social">
 							<li><a href="https://www.facebook.com/sharer/sharer.php?u=http://127.0.0.1:8000/"><i class="fa fa-facebook"></i></a></li>
 							<li><a href="https://twitter.com/home?status=Blog%20App%20by%20NT%20Python%20Teamhttp://127.0.0.1:8000/"><i class="fa fa-twitter"></i></a></li>
@@ -102,6 +116,9 @@
 					<!-- aside nav close -->
 					<button class="nav-aside-close"><i class="fa fa-times"></i></button>
 					<!-- /aside nav close -->
+					<div class="nav-logo">
+						<a href="{% url 'home'%}" class="logo"><img src="{% static 'img/logo-footer.svg' %}" alt=""></a>
+					</div>
 				</div>
 				<!-- Aside Nav -->
 			</div>

@@ -5,6 +5,8 @@ from django.db.models import Q
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
+from hitcount.models import HitCount
+from hitcount.views import HitCountMixin
 from . models import Author, BlogPost, Search, Contact, Advertisement, Subscriber
 from .forms import ContactForm, SubscriberForm
 
@@ -23,6 +25,12 @@ def categories_counts(posts):
     post_categories = [post.category for post in posts]
     categories_count = [post_categories.count(key) for key in categories.keys()] 
     return zip(categories.keys(), categories.values(), categories_count)
+
+def popular_posts_details():
+    popular_posts_details = BlogPost.objects.order_by('-hit_count_generic__hits')[:4]
+    popular_posts_details_categories = [post.category for post in popular_posts_details]
+    popular_posts_details_colors = [categories[category] for category in popular_posts_details_categories]
+    return zip(popular_posts_details, popular_posts_details_colors)
 
 def home(request):
     # Code for newsletter subscription from subscribers. This will write 
@@ -53,7 +61,7 @@ def home(request):
     post_categories = [post.category for post in posts]
     colors = [categories[category] for category in post_categories]  
     featured_post_categories = [post.category for post in featured_posts]
-    featured_colors = [categories[category] for category in featured_post_categories]     
+    featured_colors = [categories[category] for category in featured_post_categories]   
     
     hero_posts = zip(posts[0:2], colors[0:2])    
     recent_posts = zip(posts[2:8], colors[2:8])
@@ -68,12 +76,13 @@ def home(request):
         'sub_posts':sub_posts,
         'featured_posts':featured_posts,
         'categories_colors_counts':categories_colors_counts,
+        'popular_posts': BlogPost.objects.order_by('-hit_count_generic__hits')[:10],
+        'popular_posts_details':popular_posts_details(),
         'main_adv':main_adv(),
         'side_adv':side_adv(),
         'form':SubscriberForm()
     }
     return render(request, 'home/index.html', context)
-
 
 def details(request, slug):
     global flag
@@ -87,9 +96,13 @@ def details(request, slug):
     categories_colors_counts = categories_counts(posts)
 
     post = get_object_or_404(BlogPost, slug = slug)
+    hit_count = HitCount.objects.get_for_object(post)
+    hit_count_response = HitCountMixin.hit_count(request, hit_count)
+
     context={
         'post':post,
         'categories_colors_counts':categories_colors_counts,
+        'popular_posts': BlogPost.objects.order_by('-hit_count_generic__hits')[:10],
         'main_adv':main_adv(),
         'side_adv':side_adv()
         }
@@ -109,8 +122,10 @@ def posts(request, category):
         if not posts:
             search_message = '<i> No results found for your search query !! </i>'
     else:
-        if category== 'posts':
+        if category == 'posts':
             posts = all_posts
+        elif category == 'popular':
+            posts = BlogPost.objects.order_by('-hit_count_generic__hits')
         else:
             posts = all_posts.filter(category = category)
 
@@ -143,6 +158,7 @@ def posts(request, category):
         'page_range':page_range,
         'categories_colors_counts':categories_colors_counts,
         'search_message':search_message,
+        'popular_posts': BlogPost.objects.order_by('-hit_count_generic__hits')[:10],
         'main_adv':main_adv(),
         'side_adv':side_adv()
     }
@@ -169,6 +185,7 @@ def contact(request):
 
 def about(request):
     context ={
+        'popular_posts': BlogPost.objects.order_by('-hit_count_generic__hits')[:10],
         'authors': Author.objects.all(),
         'main_adv':main_adv(),
         'side_adv':side_adv()

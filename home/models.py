@@ -1,4 +1,6 @@
 from django.db import models
+from hitcount.models import HitCountMixin, HitCount
+from django.contrib.contenttypes.fields import GenericRelation
 from django.utils.text import slugify
 
 
@@ -37,7 +39,7 @@ class Author(models.Model):
     phone = models.IntegerField(max_length=10)
     image= models.ImageField(upload_to='authorImages/', blank=True, null=True)
     description = models.CharField(max_length=100, blank=True, null=True, verbose_name="Short Info")
-    links = models.ForeignKey(AuthorFollowLinks, null=True, on_delete=models.SET_NULL)
+    links = models.OneToOneField(AuthorFollowLinks, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.first_name + ' ' + self.last_name
@@ -51,6 +53,7 @@ class BlogPost(models.Model):
     posted = models.DateTimeField(auto_now_add=True, verbose_name='Posted On')
     category = models.CharField(max_length= 20, choices=CATEGORY_OPTIONS)
     author = models.ForeignKey(Author, default=1, null=True, on_delete=models.SET_NULL)
+    hit_count_generic = GenericRelation(HitCount, object_id_field='object_pk', related_query_name='hit_count_generic_relation')
 
     class Meta:
         verbose_name_plural = "Blog Posts"

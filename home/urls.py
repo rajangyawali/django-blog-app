@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 
 app_name = 'home'
@@ -11,5 +11,6 @@ urlpatterns = [
     path('join/', views.join, name='join'),
     path('privacy/', views.privacy, name='privacy'),
     path('<str:category>/', views.posts, name='posts'),
-    path('posts/<slug:slug>/', views.details, name='details'),    
+    path('posts/<slug:slug>/', views.details, name='details'), 
+    path('hitcount/', include('hitcount.urls', 'hitcount')),   
 ]
