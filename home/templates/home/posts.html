@@ -32,7 +32,7 @@
                                         <span class="post-date"><sup>Views: ({% get_hit_count for post %})</sup>&nbsp;&nbsp;&nbsp;&nbsp;{{post.posted.date}} {% if post.author %}&nbsp;&nbsp;|&nbsp;&nbsp;{{post.author}}{% endif %}</span>
                                     </div>
                                     <h3 class="post-title"><a href="{% url 'home:details' post.slug %}">{{post.title}}</a></h3>
-                                    <p>{{post.description|truncatechars:250}}</p>
+                                    <p>{{post.description|truncatechars:250|safe}}</p>
                                 </div>
                             </div>
                         </div>
