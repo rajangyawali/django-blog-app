@@ -15,6 +15,12 @@ PAGINATION_NUMBER = 8
 categories = {'Technology' :1, 'Politics' : 2, 'Society' : 3, 'Economics' : 4, 'Education' : 1, 'Tourism' : 2,
                 'Development' : 3,'Food' : 4, 'Fashion' : 1, 'Health' : 2, 'Entertainment' : 3, 'International' : 4}
 
+def archives():
+    posts = BlogPost.objects.all()
+    dates = [post.posted.date for post in posts]
+    print(list(dates))
+    return set(dates)
+
 def main_adv():
     return Advertisement.objects.all().filter(type='Main')
 
@@ -103,6 +109,7 @@ def details(request, slug):
         'post':post,
         'categories_colors_counts':categories_colors_counts,
         'popular_posts': BlogPost.objects.order_by('-hit_count_generic__hits')[:10],
+        'archives': archives(),
         'main_adv':main_adv(),
         'side_adv':side_adv()
         }

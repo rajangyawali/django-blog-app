@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from hitcount.models import HitCountMixin, HitCount
 from django.contrib.contenttypes.fields import GenericRelation
 from django.utils.text import slugify
@@ -65,6 +66,10 @@ class BlogPost(models.Model):
     def __save__(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super(BlogPost, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('home:details', kwargs={'slug': self.slug})
+    
 
 class PostImages(models.Model):
     post = models.ForeignKey(BlogPost, default=None, on_delete=models.CASCADE)

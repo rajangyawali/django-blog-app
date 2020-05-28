@@ -5,13 +5,13 @@
     <!-- post -->
     <div class="col-md-6">
         <div class="post post-thumb">
-            <a class="post-img" href="{% url 'home:details' post.slug %}"><img src="{{ post.image.url }}" alt="{{ post.title }}" height="320"></a>
+            <a class="post-img" href="{{post.get_absolute_url}}"><img src="{{ post.image.url }}" alt="{{ post.title }}" height="320"></a>
             <div class="post-body">
                 <div class="post-meta">
                     <a class="post-category cat-{{color}}" href="{% url 'home:posts' post.category %}">{{ post.category }}</a>
                     <span class="post-date">{{ post.posted.date }}</span>
                 </div>
-                <h3 class="post-title"><a href="{% url 'home:details' post.slug %}">{{ post.title }}</a></h3>
+                <h3 class="post-title"><a href="{{post.get_absolute_url}}">{{ post.title }}</a></h3>
             </div>
         </div>
     </div>
@@ -31,13 +31,13 @@
     <!-- post -->
     <div class="col-md-4">
         <div class="post">
-            <a class="post-img" href="{% url 'home:details' post.slug %}"><img src="{{post.image.url}}" alt="{{post.title}}" height="220"></a>
+            <a class="post-img" href="{{post.get_absolute_url}}"><img src="{{post.image.url}}" alt="{{post.title}}" height="220"></a>
             <div class="post-body">
                 <div class="post-meta">
                     <a class="post-category cat-{{color}}" href="{% url 'home:posts' post.category %}">{{post.category}}</a>
                     <span class="post-date">{{post.posted.date}}{% if post.author %} &nbsp;&nbsp;|&nbsp;&nbsp;{{post.author}}{% endif %}</span>
                 </div>
-                <h3 class="post-title"><a href="{% url 'home:details' post.slug %}">{{post.title|truncatechars:75}}</a></h3>
+                <h3 class="post-title"><a href="{{post.get_absolute_url}}">{{post.title|truncatechars:75}}</a></h3>
             </div>
         </div>
     </div>
@@ -54,13 +54,13 @@
             <!-- post -->
             <div class="col-md-12">
                 <div class="post post-thumb">
-                    <a class="post-img" href="{% url 'home:details' post.slug %}"><img src="{{post.image.url}}" alt="{{post.title}}" height="300"></a>
+                    <a class="post-img" href="{{post.get_absolute_url}}"><img src="{{post.image.url}}" alt="{{post.title}}" height="300"></a>
                     <div class="post-body">
                         <div class="post-meta">
                             <a class="post-category cat-{{color}}" href="{% url 'home:posts' post.category %}">{{post.category}}</a>
                             <span class="post-date">{{post.posted.date}} {% if post.author %}&nbsp;&nbsp;|&nbsp;&nbsp;{{post.author}}{% endif %}</span>
                         </div>
-                        <h3 class="post-title"><a href="{% url 'home:details' post.slug %}">{{post.title|truncatechars:80}}</a></h3>
+                        <h3 class="post-title"><a href="{{post.get_absolute_url}}">{{post.title|truncatechars:80}}</a></h3>
                     </div>
                 </div>
             </div>
@@ -71,7 +71,7 @@
             <!-- post -->
             <div class="col-md-6">
                 <div class="post">
-                    <a class="post-img" href="{% url 'home:details' post.slug %}">
+                    <a class="post-img" href="{{post.get_absolute_url}}">
                         {% if post.image %}
                             <img src="{{post.image.url}}" alt="{{post.title}}" height="200">
                         {% else %}
@@ -84,7 +84,7 @@
                             <a class="post-category cat-{{color}}" href="{% url 'home:posts' post.category %}">{{post.category}}</a>
                             <span class="post-date">{{post.posted.date}} {% if post.author %}&nbsp;&nbsp;|&nbsp;&nbsp;{{post.author}} {% endif %}</span>
                         </div>
-                        <h3 class="post-title"><a href="{% url 'home:details' post.slug %}">{{post.title|truncatechars:60}}</a></h3>
+                        <h3 class="post-title"><a href="{{post.get_absolute_url}}">{{post.title|truncatechars:60}}</a></h3>
                     </div>
                 </div>
             </div>

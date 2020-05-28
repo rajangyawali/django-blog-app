@@ -7,9 +7,9 @@
 
     {% for post in popular_posts %}
     <div class="post post-widget">
-        <a class="post-img" href="{% url 'home:details' post.slug %}"><img src="{{post.image.url}}" alt="" height="70"></a>
+        <a class="post-img" href="{{post.get_absolute_url}}"><img src="{{post.image.url}}" alt="" height="70"></a>
         <div class="post-body">
-            <h4 class="post-title"><a href="{% url 'home:details' post.slug %}">{{post.title}}</a></h4>
+            <h4 class="post-title"><a href="{{post.get_absolute_url}}">{{post.title}}</a></h4>
         </div>
     </div>
     {% endfor %}
