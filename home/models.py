@@ -5,6 +5,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.utils.text import slugify
 
 
+
 # Create your models here.
 CATEGORY_OPTIONS = (
     ('Technology', 'Technology'),
@@ -20,6 +21,18 @@ CATEGORY_OPTIONS = (
     ('Fashion', 'Fashion'),
     ('Entertainment', 'Entertainment')
 )
+
+class Subscriber(models.Model):
+    subscriber = models.EmailField(max_length=30, unique=True, blank=False, null=False, verbose_name="Subscriber Email")
+    subscribed = models.DateTimeField(auto_now_add=True, verbose_name='Sunscribed On')
+
+    class Meta:
+        verbose_name_plural = 'Subscribers List'
+        ordering = ['-subscribed']
+
+    def __str__(self):
+        return self.subscriber
+
 class AuthorFollowLinks(models.Model):
     facebook_link = models.URLField(blank=True, null=True)
     twitter_link = models.URLField(blank=True, null=True)
@@ -64,15 +77,15 @@ class BlogPost(models.Model):
         return self.title
 
     def __save__(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        if not self.slug:
+            self.slug = slugify(self.title)
         super(BlogPost, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('home:details', kwargs={'slug': self.slug})
     
-
 class PostImages(models.Model):
-    post = models.ForeignKey(BlogPost, default=None, on_delete=models.CASCADE)
+    post = models.ForeignKey(BlogPost, on_delete=models.SET_NULL, null=True)
     image = models.ImageField(upload_to='postImages/')
 
     class Meta:
@@ -118,13 +131,4 @@ class Advertisement(models.Model):
     def __str__(self):
         return self.name + ' from ' + self.company
 
-class Subscriber(models.Model):
-    subscriber = models.EmailField(max_length=30, unique=True, blank=False, null=False, verbose_name="Subscriber Email")
-    subscribed = models.DateTimeField(auto_now_add=True, verbose_name='Sunscribed On')
 
-    class Meta:
-        verbose_name_plural = 'Subscribers List'
-        ordering = ['-subscribed']
-
-    def __str__(self):
-        return self.subscriber

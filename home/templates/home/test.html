@@ -1,3 +1,4 @@
-{% for post in posts %}
-{{post.slug}}
+{{post}}
+{% for p in post_images %}
+   <img src={{p.image.url}}/>
 {% endfor %}

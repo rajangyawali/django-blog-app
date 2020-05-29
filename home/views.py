@@ -7,7 +7,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from hitcount.models import HitCount
 from hitcount.views import HitCountMixin
-from . models import Author, BlogPost, Search, Contact, Advertisement, Subscriber
+from . models import Author, BlogPost, Search, Contact, Advertisement, Subscriber, PostImages
 from .forms import ContactForm, SubscriberForm
 
 flag = 0
@@ -39,13 +39,13 @@ def home(request):
         form = SubscriberForm(request.POST)
         if form.is_valid():
             subscriber = form.cleaned_data['subscriber']
-            # send_mail(subject="Subscription", 
-            #         message="You have successfully subscribed our newsletter. \n You will get recent updates of our news",
-            #         from_email=settings.EMAIL_HOST_USER, recipient_list=[subscriber], fail_silently=False)   
+            send_mail(subject="Subscription", 
+                    message="You have successfully subscribed our newsletter. \n\nYou will get recent updates of our featured news.\n\nRegards:\nNT Blogs Team",
+                    from_email=settings.EMAIL_HOST_USER, recipient_list=[subscriber], fail_silently=False)   
             try:
                 subscriber = Subscriber(subscriber=subscriber)
                 subscriber.save()
-                messages.success(request, 'Your have successfully subscribed our newsletter. You will be getting most recent updates. Thank you !!')
+                messages.success(request, 'Your have successfully subscribed our newsletter. You will be getting most recent updates of our featured news. Thank you !!')
             except:
                 messages.error(request, 'Error subscribing newsletter. You have already subscribed !!')
         else:
@@ -214,3 +214,14 @@ def error_404(request, exception):
 
 def error_500(request):
     return render(request, 'home/error_500.html', status='500')
+
+
+def test(request, slug):
+    post = BlogPost.objects.get(slug=slug)
+    post_images = PostImages.objects.filter(post=post)
+
+    context = {
+        'post':post,
+        'post_images':post_images 
+    }
+    return render(request, 'home/test.html', context)

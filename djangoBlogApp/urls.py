@@ -9,7 +9,8 @@ handler500 = 'home.views.error_500'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
-    path('', include('home.urls', namespace='home'))
+    path('', include('home.urls', namespace='home')),
+    path('registration', include('registration.urls', namespace='registration'))
 ]
 
 

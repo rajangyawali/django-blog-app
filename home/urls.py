@@ -12,5 +12,6 @@ urlpatterns = [
     path('privacy/', views.privacy, name='privacy'),
     path('<str:category>/', views.posts, name='posts'),
     path('posts/<slug:slug>/', views.details, name='details'), 
-    path('hitcount/', include('hitcount.urls', 'hitcount')),   
+    path('hitcount/', include('hitcount.urls', 'hitcount')),  
+    path('test/<slug:slug>/', views.test, name='test'), 
 ]

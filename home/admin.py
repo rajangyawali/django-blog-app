@@ -7,7 +7,13 @@ from . models import (Author, BlogPost, PostImages, Search,
 
 # Register your models here.
 
+class PostImagesAdmin(admin.TabularInline):
+    model = PostImages
+    extra = 1
+    max_num = 3
+
 class BlogPostModelAdmin(ImportExportModelAdmin, ImportExportActionModelAdmin, admin.ModelAdmin):
+    inlines = [PostImagesAdmin]
     list_display = ["title", "description","category", "featured", "author",  "posted"]
     list_display_links = ["description", "category", "author"]
     prepopulated_fields = {'slug': ('title',)}
@@ -40,9 +46,7 @@ class AuthorFollowLinksModelAdmin(ImportExportModelAdmin, ImportExportActionMode
     class Meta:
         model = AuthorFollowLinks
 
-class PostImagesModelAdmin(ImportExportModelAdmin, ImportExportActionModelAdmin, admin.ModelAdmin):
-    class Meta:
-        model = PostImages
+
 
 admin.site.register(Author, AuthorModelAdmin)
 admin.site.register(AuthorFollowLinks, AuthorFollowLinksModelAdmin)
@@ -51,6 +55,6 @@ admin.site.register(Contact, ContactModelAdmin)
 admin.site.register(Advertisement, AdvertisementModelAdmin)
 admin.site.register(Subscriber, SubscriberModelAdmin)
 admin.site.register(BlogPost, BlogPostModelAdmin)
-admin.site.register(PostImages, PostImagesModelAdmin)
+# admin.site.register(PostImages, PostImagesModelAdmin)
 
 
