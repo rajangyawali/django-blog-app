@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator, EmptyPage, InvalidPage, PageNotAnInteger
 from django.urls import reverse
+from django.utils.text import slugify
 from django.db.models import Q
 from django.contrib import messages
 from django.core.mail import send_mail
@@ -9,6 +10,7 @@ from hitcount.models import HitCount
 from hitcount.views import HitCountMixin
 from . models import Author, BlogPost, Search, Contact, Advertisement, Subscriber, PostImages
 from .forms import ContactForm, SubscriberForm
+from django.forms import modelform_factory
 
 flag = 0
 PAGINATION_NUMBER = 8
@@ -39,9 +41,12 @@ def home(request):
         form = SubscriberForm(request.POST)
         if form.is_valid():
             subscriber = form.cleaned_data['subscriber']
-            send_mail(subject="Subscription", 
-                    message="You have successfully subscribed our newsletter. \n\nYou will get recent updates of our featured news.\n\nRegards:\nNT Blogs Team",
-                    from_email=settings.EMAIL_HOST_USER, recipient_list=[subscriber], fail_silently=False)   
+            try:
+                send_mail(subject="Subscription", 
+                        message="You have successfully subscribed our newsletter. \n\nYou will get recent updates of our featured news.\n\nRegards:\nNT Blogs Team",
+                        from_email=settings.EMAIL_HOST_USER, recipient_list=[subscriber], fail_silently=False)   
+            except:
+                pass
             try:
                 subscriber = Subscriber(subscriber=subscriber)
                 subscriber.save()
@@ -163,6 +168,8 @@ def posts(request, category):
         'side_adv':side_adv()
     }
     return render(request, 'home/posts.html', context)
+
+
 
 def contact(request):
     if request.method == 'GET':

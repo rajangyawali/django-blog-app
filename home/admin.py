@@ -14,7 +14,7 @@ class PostImagesAdmin(admin.TabularInline):
 
 class BlogPostModelAdmin(ImportExportModelAdmin, ImportExportActionModelAdmin, admin.ModelAdmin):
     inlines = [PostImagesAdmin]
-    list_display = ["title", "description","category", "featured", "author",  "posted"]
+    list_display = ["title", "description","category", "featured", "author",  "posted", "updated"]
     list_display_links = ["description", "category", "author"]
     prepopulated_fields = {'slug': ('title',)}
     list_filter = ["category", "featured", "author", "posted"]
